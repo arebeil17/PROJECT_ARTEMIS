@@ -47,7 +47,8 @@ module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, Re
     
     output reg [31:0] ReadData; // Contents of memory location at Address
 
-    reg [31:0] memory [0:5128]; // 256x32 Registers
+    reg [31:0] temp = 0;
+    reg [31:0] memory [0:5120]; // 256x32 Registers
     integer i = 0;
     
     //initialize data memory
@@ -62,12 +63,13 @@ module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, Re
         //$readmemh("Lab24DM.hex", memory);
         //$readmemh("SAD_DM4x4-2x2.hex", memory);
         //$readmemh("SAD_DM16x16-4x4.hex", memory);
-        $readmemh("SAD_DM32x32-16x16.hex", memory);
+        //$readmemh("SAD_DM32x32-16x16.hex", memory);
+        //$readmemh("SAD_DM64x64-4x4.hex", memory);
         // data_memory.txt is for Private Case Testing
         //$readmemh("data_memory.txt", memory);
-//        for(i = 0; i < 256; i = i + 1) begin
-//             memory[i] = 0;
-//         end
+        for(i = 0; i < 5120; i = i + 1) begin
+             memory[i] = 0;
+         end
 //        memory[0] = 32'd100;
 //        memory[1] = 32'd200;
 //        memory[2] = 32'd300;
@@ -140,7 +142,12 @@ module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, Re
         else if(LB4) begin
                // Load 4 bytes by concatenating 4 sequentially Addressable words: 
                // ReadData = concatenation {MEM[A], MEM[A+1], MEM[A+2], MEM[A+3]} 
-               ReadData <= {{memory[Address[31:2]]} , {memory[Address[31:2] + 1]}, {memory[Address[31:2] + 2]}, {memory[Address[31:2] + 3]}};
+               //ReadData <= {memory[Address[31:2]][7:0] , memory[(Address[31:2] + 1)][7:0], memory[(Address[31:2] + 2)][7:0], memory[(Address[31:2] + 3)][7:0]};
+               temp = memory[Address[31:2]][7:0] << 24 | 
+                      memory[(Address[31:2] + 1)][7:0] << 16 | 
+                      memory[(Address[31:2] + 2)][7:0] << 8  | 
+                      memory[(Address[31:2] + 3)][7:0];
+               ReadData = temp;
         end 
         else begin
             ReadData <= 32'd0;

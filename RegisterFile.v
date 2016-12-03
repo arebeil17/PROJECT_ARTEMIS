@@ -160,8 +160,9 @@ module RegisterFile(
         S7 <= registers[23];
     end
     //Track $t5, every change is a window scan iteration
-    always @(registers[13])begin
-        Window_SAD_Cnt = Window_SAD_Cnt + 1;
+    always @(posedge Clk) begin
+        if(WriteRegister1 == 5'b01101) //Reg[13] = $t5
+            Window_SAD_Cnt = Window_SAD_Cnt + 1;
     end
     
     assign V0 = registers[2];

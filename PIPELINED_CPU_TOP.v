@@ -73,7 +73,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
     // WB Stage Output(s)
     (* mark_debug = "true"*) wire [31:0] WB_MemToReg_Out;
     
-    reg [63:0] KiloCycles = 0;
+    reg [63:0] Cycles = 0;
     wire [63:0] cnt_Out;
     
     // Forwarding Unit
@@ -358,6 +358,6 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
               
     always @(posedge ClkOut) begin
         if(cnt_Out%1000 == 0)
-            KiloCycles <= cnt_Out;          
+            Cycles <= cnt_Out;          
     end
 endmodule

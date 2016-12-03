@@ -109,7 +109,7 @@ module ALU32Bit(ALUControl, A, B, Shamt, RS, ALUResult, HiLoEn, HiLoWrite, HiLoR
                      AD4B       = 'b100001;
     
     reg [5:0] Operation;
-    reg [31:0] temp_1, temp_2, temp_3, temp_4;
+    reg [31:0] temp_1, temp_2, temp_3, temp_4, temp_5;
     reg [63:0] temp64;
     
     initial begin
@@ -326,12 +326,12 @@ module ALU32Bit(ALUControl, A, B, Shamt, RS, ALUResult, HiLoEn, HiLoWrite, HiLoR
                 ALUResult <= B << 16;
             end
             AD4B: begin
-                temp_1 <= (A[7:0] > B[7:0])     ? (A[7:0]   - B[7:0]):(A[7:0]     - B[7:0]);
-                temp_2 <= (A[15:8] > B[15:8])   ? (A[15:8]  - B[15:8]):(A[15:8]   - B[15:8]);
-                temp_3 <= (A[23:16] > B[23:16]) ? (A[23:16] - B[23:16]):(A[23:16] - B[23:16]);
-                temp_4 <= (A[31:24] > B[31:24]) ? (A[31:24] - B[31:24]):(A[31:24] - B[31:24]);
-                RegWrite = 1;
-                ALUResult = (temp_1 + temp_2 + temp_3 + temp_4);
+                RegWrite <= 1;
+                temp_1 = (A[7:0] > B[7:0])     ? (A[7:0]   - B[7:0])  : (B[7:0]   - A[7:0]);
+                temp_2 = (A[15:8] > B[15:8])   ? (A[15:8]  - B[15:8]) : (B[15:8]  - A[15:8]);
+                temp_3 = (A[23:16] > B[23:16]) ? (A[23:16] - B[23:16]): (B[23:16] - A[23:16]);
+                temp_4 = (A[31:24] > B[31:24]) ? (A[31:24] - B[31:24]): (B[31:24] - A[31:24]);
+                ALUResult = $unsigned(temp_1[7:0] + temp_2[7:0] + temp_3[7:0] + temp_4[7:0]);
             end
             default: begin
             	RegWrite <= 0; // Write NOT Concur
