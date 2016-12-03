@@ -349,6 +349,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
               .Rst(Rst), 
               .En('b1),
               .Count(cnt_Out));
+              
     always @(posedge ClkOut) begin
         if(cnt_Out%1000 == 0)
             KiloCycles <= cnt_Out;          

@@ -67,6 +67,8 @@ module RegisterFile(
     (* mark_debug = "true"*) output [31:0] V0, V1;
     (* mark_debug = "true"*) reg [31:0] S1, S2, S3, S4, S7;
     
+    reg [63:0]  Window_SAD_Cnt = 0; //Tracks number of window iterations to compute all SADs
+    
     reg [31:0] registers [0:31];
     
     initial begin
@@ -156,6 +158,10 @@ module RegisterFile(
         S3 <= registers[19];
         S4 <= registers[20];
         S7 <= registers[23];
+    end
+    //Track $t5, every change is a window scan iteration
+    always @(registers[13])begin
+        Window_SAD_Cnt = Window_SAD_Cnt + 1;
     end
     
     assign V0 = registers[2];
