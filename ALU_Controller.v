@@ -28,6 +28,7 @@ module ALU_Controller(AluOp, Funct, ALUControl);
                      ALUOP_BGTZ     = 'b10001, // BGTZ
                      ALUOP_BLEZ     = 'b10010, // BLEZ
                      ALUOP_LUI      = 'b10011; // LUI
+
     				 
     //Instruction Function code 6 bit input definitions
     //---------------Dont Care FUNCTION FIELDS                
@@ -57,7 +58,8 @@ module ALU_Controller(AluOp, Funct, ALUControl);
                      FC_mflo 	=  'b010010, 	// mflo
                      FC_mthi 	=  'b010001, 	// mthi
                      FC_mtlo 	=  'b010011, 	// mtlo
-                     FC_jr      =  'b001000;    // jr                
+                     FC_jr      =  'b001000,    // jr
+                     FC_AD4B    =  'b111111;    // AD4B             
      
      //ALU control 6 bit output definitions                
     localparam [5:0] ADD        = 'b000000, // ADD  	 | 00000
@@ -92,7 +94,8 @@ module ALU_Controller(AluOp, Funct, ALUControl);
                      BGTZ       = 'b011101, // BGTZ     | 11101
                      BLEZ       = 'b011110, // BLEZ     | 11110
                      JR         = 'b011111, // JR       |011111
-                     LUI        = 'b100000; // LUI
+                     LUI        = 'b100000, // LUI
+                     AD4B       = 'b100001; //AD4B
 
     always @(*) begin
         if(AluOp == ALUOP_DC) begin //If its a dont care then function code is checked
@@ -168,7 +171,10 @@ module ALU_Controller(AluOp, Funct, ALUControl);
                 end
                 FC_jr: begin // jr
                     ALUControl <= JR;
-                end 
+                end
+                FC_AD4B: begin // AD4B
+                    ALUControl <= AD4B;
+                end  
                 default: begin
                     ALUControl <= ADD;
                 end

@@ -38,13 +38,13 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
     wire [31:0] IFID_Instruction_Out, IFID_PC_Out;
     
     // ID Stage Output(s)
-    wire ID_IFIDFlush_Out, ID_Flush_Out, ID_RegWrite_Out, ID_ALUSrc_Out, ID_MemWrite_Out, ID_MemRead_Out, ID_Branch_Out, ID_SignExt_Out, ID_PCWriteEnable_Out, ID_IFIDWriteEnable_Out, ID_Jump_Out;
+    wire ID_IFIDFlush_Out, ID_Flush_Out, ID_RegWrite_Out, ID_ALUSrc_Out, ID_MemWrite_Out, ID_MemRead_Out, ID_Branch_Out, ID_SignExt_Out, ID_PCWriteEnable_Out, ID_IFIDWriteEnable_Out, ID_Jump_Out, ID_LB4_Out;
     wire [1:0] ID_ByteSel_Out, ID_RegDestMuxControl_Out, ID_MemToReg_Out;
     wire [4:0] ID_ALUOp_Out;
     wire [31:0] ID_RF_RD1_Out, ID_RF_RD2_Out, ID_SE_Out, ID_BranchDest_Out, ID_JumpDest_Out, V0_Out, V1_Out, V0_RegOut, V1_RegOut;
     
     // IDEX Stage Register Output(s)
-    wire IDEX_RegWrite_Out, IDEX_ALUSrc_Out, IDEX_MemWrite_Out, IDEX_MemRead_Out, IDEX_Branch_Out, IDEX_SignExt_Out;      
+    wire IDEX_RegWrite_Out, IDEX_ALUSrc_Out, IDEX_MemWrite_Out, IDEX_MemRead_Out, IDEX_Branch_Out, IDEX_SignExt_Out, IDEX_LB4_Out;      
     wire [1:0] IDEX_ByteSel_Out, IDEX_RegDestMuxControl_Out, IDEX_MemToReg_Out;
     wire [4:0] IDEX_ALUOp_Out;
     wire [31:0] IDEX_Instruction_Out, IDEX_SE_Out, IDEX_RF_RD1_Out, IDEX_RF_RD2_Out, IDEX_PC_Out;
@@ -55,7 +55,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
     wire [31:0] EX_ALUResult_Out, EX_WriteData_Out;
     
     //EXMEM Stage Register Output(s)
-    wire EXMEM_RegWrite_Out, EXMEM_MemRead_Out, EXMEM_MemWrite_Out;
+    wire EXMEM_RegWrite_Out, EXMEM_MemRead_Out, EXMEM_MemWrite_Out, EXMEM_LB4_Out;
     wire [1:0] EXMEM_ByteSel_Out, EXMEM_MemToReg_Out;
     wire [4:0] EXMEM_RegDest_Out;
     wire [31:0] EXMEM_WriteData_Out, EXMEM_Instruction_Out;
@@ -155,6 +155,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .PC_WriteEnable(ID_PCWriteEnable_Out),
         .IFIDWriteEnable_Out(ID_IFIDWriteEnable_Out),
         .IDEXFlush(ID_Flush_Out),
+        .LB4(ID_LB4_Out),
         // Data Output(s)
         .SE_Out(ID_SE_Out),
         .RF_RD1(ID_RF_RD1_Out),
@@ -179,6 +180,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .ByteSel_In(ID_ByteSel_Out),
         .RegDestMuxControl_In(ID_RegDestMuxControl_Out),
         .ALUOp_In(ID_ALUOp_Out), 
+        .LB4_In(ID_LB4_Out),
         // Data Inputs
         .Instruction_In(IFID_Instruction_Out),
         .SE_In(ID_SE_Out),
@@ -194,6 +196,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .ByteSel_Out(IDEX_ByteSel_Out),
         .RegDestMuxControl_Out(IDEX_RegDestMuxControl_Out),
         .ALUOp_Out(IDEX_ALUOp_Out),
+        .LB4_Out(IDEX_LB4_Out),
         // Data Outputs 
         .Instruction_Out(IDEX_Instruction_Out),
         .PC_Out(IDEX_PC_Out),
@@ -238,6 +241,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .MemRead_In(IDEX_MemRead_Out),
         .MemWrite_In(IDEX_MemWrite_Out),
         .ByteSel_In(IDEX_ByteSel_Out),
+        .LB4_In(IDEX_LB4_Out),
         // Data Input(s)
         .ALUResult_In(EX_ALUResult_Out),
         .PC_In(IDEX_PC_Out),
@@ -249,6 +253,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .MemRead_Out(EXMEM_MemRead_Out),
         .MemWrite_Out(EXMEM_MemWrite_Out),
         .ByteSel_Out(EXMEM_ByteSel_Out),
+        .LB4_Out(EXMEM_LB4_Out),
         // Data Outputs
         .ALUResult_Out(EXMEM_ALUResult_Out),
         .Instruction_Out(EXMEM_Instruction_Out),
@@ -263,6 +268,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .MemRead(EXMEM_MemRead_Out),
         .MemWrite(EXMEM_MemWrite_Out),
         .ByteSel(EXMEM_ByteSel_Out),
+        .LB4(EXMEM_LB4_Out),
         // Data Inputs\
         .Instruction(EXMEM_Instruction_Out),
         .PC(EXMEM_PC_Out),

@@ -65,7 +65,7 @@ module RegisterFile(
     
     output reg [31:0] ReadData1, ReadData2;
     (* mark_debug = "true"*) output [31:0] V0, V1;
-    (* mark_debug = "true"*) reg [31:0] S1, S2, S3, S4, S7;
+    reg [31:0] S1, S2, S3, S4, S7;
     
     reg [63:0]  Window_SAD_Cnt = 0; //Tracks number of window iterations to compute all SADs
     

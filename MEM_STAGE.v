@@ -8,8 +8,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module MEM_STAGE(Clock, PC, WriteData, ReadData, WriteAddress, MemRead, MemWrite, ByteSel, Instruction);
-    input Clock, MemRead, MemWrite;
+module MEM_STAGE(Clock, PC, WriteData, ReadData, WriteAddress, MemRead, MemWrite, ByteSel, LB4, Instruction);
+    input Clock, MemRead, MemWrite, LB4;
     input [1:0] ByteSel;
     input [31:0] PC, WriteData, WriteAddress, Instruction;
     
@@ -19,6 +19,7 @@ module MEM_STAGE(Clock, PC, WriteData, ReadData, WriteAddress, MemRead, MemWrite
         .Address(WriteAddress),
         .WriteData(WriteData),
         .ByteSel(ByteSel),
+        .LB4(LB4),
         .Clock(Clock),
         .MemWrite(MemWrite),
         .MemRead(MemRead),

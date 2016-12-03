@@ -35,13 +35,14 @@
 // of the "Address" input to index any of the 256 words. 
 ////////////////////////////////////////////////////////////////////////////////
 
-module DataMemory(Address, WriteData, ByteSel, Clock, MemWrite, MemRead, ReadData); 
+module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, ReadData); 
 
     input [31:0] Address; 	// Input Address 
     input [31:0] WriteData; // Data to be Written into the Address 
     input Clock;            // Clock Signal
     input MemWrite; 		// Control Signal for Memory Write 
-    input MemRead; 			// Control Signal for Memory Read 
+    input MemRead; 			// Control Signal for Memory Read
+    input LB4;              // Control Signal for Loading 4 Bytes at once 
     input [1:0] ByteSel;    // 00 for Word, 01 for Byte, 11 for Half
     
     output reg [31:0] ReadData; // Contents of memory location at Address
@@ -111,7 +112,7 @@ module DataMemory(Address, WriteData, ByteSel, Clock, MemWrite, MemRead, ReadDat
     end
     
     always @(*) begin
-        if(MemRead == 1) begin
+        if(MemRead == 1 && !LB4) begin
             if(ByteSel == 'b00) begin
                 if(Address[1:0] == 'b00) //These byte indexing bits must be 00 for lw
                     ReadData <= memory[Address[31:2]];
@@ -135,7 +136,13 @@ module DataMemory(Address, WriteData, ByteSel, Clock, MemWrite, MemRead, ReadDat
                 else if(Address[1:0] == 'b10) // Index word 2
                     ReadData <= {{16{memory[Address[31:2]][15]}}, memory[Address[31:2]][31:16]}; 
             end
-        end else begin
+        end
+        else if(LB4) begin
+               // Load 4 bytes by concatenating 4 sequentially Addressable words: 
+               // ReadData = concatenation {MEM[A], MEM[A+1], MEM[A+2], MEM[A+3]} 
+               ReadData <= {{memory[Address[31:2]]} , {memory[Address[31:2] + 1]}, {memory[Address[31:2] + 2]}, {memory[Address[31:2] + 3]}};
+        end 
+        else begin
             ReadData <= 32'd0;
         end
     end

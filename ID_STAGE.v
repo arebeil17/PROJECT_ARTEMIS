@@ -14,7 +14,7 @@ module ID_STAGE(
     // Data Input(s)
     MEM_Instruction_In, EX_Instruction_In, Instruction, PC, WriteAddress, WriteData, FWFromMEM, FWFromWB,  
     // Control Output(s)
-    IDEXFlush, ALUOp, RegWrite, ALUSrc, MemWrite, MemRead, Branch_Out, MemToReg, ByteSel, RegDestMuxControl, Jump, PC_WriteEnable, IFIDWriteEnable_Out, IFIDFlush,
+    IDEXFlush, ALUOp, RegWrite, ALUSrc, MemWrite, MemRead, Branch_Out, MemToReg, ByteSel, RegDestMuxControl, Jump, PC_WriteEnable, IFIDWriteEnable_Out, IFIDFlush, LB4,
     // Data Output(s)
     SE_Out, RF_RD1, RF_RD2, BranchDest, JumpDest, V0_Out, V1_Out);
 
@@ -26,7 +26,7 @@ module ID_STAGE(
     output wire [31:0] SE_Out, RF_RD1, RF_RD2, BranchDest, V0_Out, V1_Out;
          
     //Control Signal Outputs
-    output IDEXFlush, RegWrite, ALUSrc, MemWrite, MemRead, Branch_Out, Jump, PC_WriteEnable, IFIDWriteEnable_Out, IFIDFlush;
+    output IDEXFlush, RegWrite, ALUSrc, MemWrite, MemRead, Branch_Out, Jump, PC_WriteEnable, IFIDWriteEnable_Out, IFIDFlush, LB4;
     output [1:0] ByteSel, RegDestMuxControl, MemToReg;      
     output [4:0] ALUOp;
     output [31:0] JumpDest;
@@ -127,7 +127,8 @@ module ID_STAGE(
         .ByteSel(ByteSel),
         .BCControl(BCControl),
         .BranchSourceMux(BranchSourceMuxControl),
-        .JAL(JAL));
+        .JAL(JAL),
+        .LB4(LB4));
         
      RegisterFile RF(
         .ReadRegister1(Instruction[25:21]),

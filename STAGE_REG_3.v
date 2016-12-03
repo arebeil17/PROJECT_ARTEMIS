@@ -25,18 +25,18 @@ module EXMEM_Reg(
     // Control Input(s)
     MemRead_In, MemWrite_In,  ByteSel_In,
     // Data Input(s)
-    ALUResult_In, Instruction_In, MemToReg_In, PC_In, RegDest_In, RegWrite_In, WriteData_In,
+    ALUResult_In, Instruction_In, MemToReg_In, PC_In, RegDest_In, RegWrite_In, WriteData_In, LB4_In,
     // Control Output(s)
-    MemRead_Out, MemWrite_Out, ByteSel_Out,
+    MemRead_Out, MemWrite_Out, ByteSel_Out, LB4_Out,
     // Data Output(s)
     ALUResult_Out, Instruction_Out, MemToReg_Out, PC_Out, RegDest_Out, RegWrite_Out, WriteData_Out);
     
-    input Clock, Reset, MemRead_In, MemWrite_In, RegWrite_In;
+    input Clock, Reset, MemRead_In, MemWrite_In, RegWrite_In, LB4_In;
     input [1:0] ByteSel_In, MemToReg_In;
     input [4:0] RegDest_In;
     input [31:0] ALUResult_In, Instruction_In, PC_In, WriteData_In;
     
-    output reg MemRead_Out, MemWrite_Out, RegWrite_Out;
+    output reg MemRead_Out, MemWrite_Out, RegWrite_Out, LB4_Out;
     output reg [1:0] ByteSel_Out, MemToReg_Out;
     output reg [4:0] RegDest_Out;
     output reg [31:0] ALUResult_Out, Instruction_Out, PC_Out, WriteData_Out;
@@ -52,6 +52,7 @@ module EXMEM_Reg(
         RegDest_Out <= 5'b0;
         RegWrite_Out <= 0;
         WriteData_Out <= 32'b0;
+        LB4_Out <= 0;
     end
     
     always @(posedge Clock) begin
@@ -66,6 +67,7 @@ module EXMEM_Reg(
             RegDest_Out         <= 5'b0;
             RegWrite_Out        <= 0;
             WriteData_Out       <= 32'b0;
+            LB4_Out             <= 0;
         end else begin
             ALUResult_Out       <= ALUResult_In;
             ByteSel_Out         <= ByteSel_In;
@@ -77,6 +79,7 @@ module EXMEM_Reg(
             RegDest_Out         <= RegDest_In;
             RegWrite_Out        <= RegWrite_In;
             WriteData_Out       <= WriteData_In;
+            LB4_Out             <= LB4_In;
         end
     end 
 endmodule
