@@ -73,6 +73,9 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
     // WB Stage Output(s)
     (* mark_debug = "true"*) wire [31:0] WB_MemToReg_Out;
     
+    reg [63:0] KiloCycles = 0;
+    wire [63:0] cnt_Out;
+    
     // Forwarding Unit
     Forwarder FU(
         .Clock(ClkOut),
@@ -335,9 +338,19 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
           
     // Clock Divider
     Mod_Clk_Div MCD(
-        .In(4'b1111), // For Testing
-        //.In(4'b1110), // For Use 
+        //.In(4'b1111), // For MCD speeds
+        .In(4'b0000), // For Full Speed
         .Clk(Clk), 
         .Rst(Rst), 
         .ClkOut(ClkOut));
+        
+    Counter64 CycleCounter(
+              .Clk(ClkOut), 
+              .Rst(Rst), 
+              .En('b1),
+              .Count(cnt_Out));
+    always @(posedge ClkOut) begin
+        if(cnt_Out%1000 == 0)
+            KiloCycles <= cnt_Out;          
+    end
 endmodule
