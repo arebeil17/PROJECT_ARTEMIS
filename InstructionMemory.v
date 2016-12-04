@@ -64,7 +64,8 @@ module InstructionMemory(Address, Instruction);
         //$readmemb("SAD_V4_Out.txt", memory);
         //$readmemb("SAD_V5_Out.txt", memory);
         //$readmemb("SAD_V6_Out.txt", memory);
-        $readmemb("SAD_V7_Out.txt", memory);
+        //$readmemb("SAD_V7_Out.txt", memory);
+        $readmemb("SAD_V8_Out.txt", memory);
     end
 
     assign Instruction = memory[Address[31:2]];
