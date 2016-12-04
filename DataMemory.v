@@ -142,12 +142,12 @@ module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, Re
         else if(LB4) begin
                // Load 4 bytes by concatenating 4 sequentially Addressable words: 
                // ReadData = concatenation {MEM[A], MEM[A+1], MEM[A+2], MEM[A+3]} 
-               //ReadData <= {memory[Address[31:2]][7:0] , memory[(Address[31:2] + 1)][7:0], memory[(Address[31:2] + 2)][7:0], memory[(Address[31:2] + 3)][7:0]};
-               temp = memory[Address[31:2]][7:0] << 24 | 
-                      memory[(Address[31:2] + 1)][7:0] << 16 | 
-                      memory[(Address[31:2] + 2)][7:0] << 8  | 
-                      memory[(Address[31:2] + 3)][7:0];
-               ReadData = temp;
+               ReadData <= {memory[Address[31:2]][7:0] , memory[(Address[31:2] + 1)][7:0], memory[(Address[31:2] + 2)][7:0], memory[(Address[31:2] + 3)][7:0]};
+//               temp = memory[Address[31:2]][7:0] << 24 | 
+//                      memory[(Address[31:2] + 1)][7:0] << 16 | 
+//                      memory[(Address[31:2] + 2)][7:0] << 8  | 
+//                      memory[(Address[31:2] + 3)][7:0];
+//               ReadData = temp;
         end 
         else begin
             ReadData <= 32'd0;

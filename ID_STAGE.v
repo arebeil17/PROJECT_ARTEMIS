@@ -10,7 +10,7 @@
 module ID_STAGE(
     Clock, Reset,
     // Control Input(s)
-    RegWrite_In, MemReadFromEXMEM, MemReadFromIDEX, FWMuxAControl, FWMuxBControl, RegWriteFromIDEX,
+    RegWrite_In, MemReadFromEXMEM, MemReadFromIDEX, FWMuxAControl, FWMuxBControl, RegWriteFromIDEX, IFID_JFlush,
     // Data Input(s)
     MEM_Instruction_In, EX_Instruction_In, Instruction, PC, WriteAddress, WriteData, FWFromMEM, FWFromWB,  
     // Control Output(s)
@@ -18,7 +18,7 @@ module ID_STAGE(
     // Data Output(s)
     SE_Out, RF_RD1, RF_RD2, BranchDest, JumpDest, V0_Out, V1_Out);
 
-    input Clock, Reset, RegWrite_In, MemReadFromIDEX, RegWriteFromIDEX, MemReadFromEXMEM;
+    input Clock, Reset, RegWrite_In, MemReadFromIDEX, RegWriteFromIDEX, MemReadFromEXMEM, IFID_JFlush;
     input [1:0] FWMuxAControl, FWMuxBControl;
     input [4:0] WriteAddress;
     input [31:0] Instruction, MEM_Instruction_In, EX_Instruction_In, WriteData, PC, FWFromMEM, FWFromWB;
@@ -112,6 +112,7 @@ module ID_STAGE(
     DatapathController Controller(
         .Clock(Clock),
         .OpCode(Instruction[31:26]),
+        .IFID_JFlush(IFID_JFlush),
         .Funct(Instruction[5:0]),
         .AluOp(ALUOp),
         .RegDest(RegDestMuxControl),

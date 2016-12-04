@@ -20,13 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IFID_Reg(Clock, Reset, Flush , WriteEnable, Instruction_In, Instruction_Out, PC_In, PC_Out);
+module IFID_Reg(Clock, Reset, Flush , WriteEnable, Instruction_In, Instruction_Out, PC_In, PC_Out, IFID_JFlush_Out);
 
     input Clock, Reset, Flush, WriteEnable;
     
     input [31:0] Instruction_In, PC_In;
     
     output reg [31:0] Instruction_Out, PC_Out;
+    
+    output reg IFID_JFlush_Out = 0;
     
     initial begin
         Instruction_Out <= 32'b0;
@@ -35,12 +37,14 @@ module IFID_Reg(Clock, Reset, Flush , WriteEnable, Instruction_In, Instruction_O
     
     always @(posedge Clock) begin
         if(Reset || Flush) begin
-            Instruction_Out = 32'b0;
-            PC_Out = 32'b0;
+            Instruction_Out <= 32'b0;
+            PC_Out <= 32'b0;
+            IFID_JFlush_Out = 1;
         end else begin
             if(WriteEnable)begin
                 PC_Out <= PC_In;
                 Instruction_Out <= Instruction_In;
+                IFID_JFlush_Out <= 0;
             end
         end
     end

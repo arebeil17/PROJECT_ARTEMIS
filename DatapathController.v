@@ -4,13 +4,13 @@ module DatapathController(
     // Control Input(s)
     Clock, 
     // Data Input(s)
-    OpCode, Funct,
+    OpCode, Funct, IFID_JFlush,
     // Control Output(s)
     RegDest, RegWrite, AluSrc, AluOp, MemWrite, MemRead, Branch, MemToReg, SignExt, Jump, JumpMux, ByteSel, BCControl, BranchSourceMux, JAL, LB4
     // Data Output(s)
     );
     
-    input Clock;
+    input Clock, IFID_JFlush;
     input[5:0] OpCode, Funct;
     
     output reg RegWrite, AluSrc, MemWrite, MemRead, Branch, SignExt, Jump, JumpMux, BranchSourceMux, JAL, LB4;
@@ -65,7 +65,9 @@ module DatapathController(
                 BCControl <= 'b000; BranchSourceMux <= 0; JAL <= 0; LB4 <= 0;
             end
             OP_000000: begin // Special (R-type Instructions and JR)
-                RegDest <= 2'b00; RegWrite <= 1; AluSrc <= 0; 
+                if(IFID_JFlush) RegWrite <= 0;
+                else  RegWrite <= 1;
+                RegDest <= 2'b00; AluSrc <= 0; 
                 MemWrite <= 0; MemRead <= 0; Branch <= 0; 
                 MemToReg <= 2'b00; SignExt <= 1; AluOp <= 'b00000;
                 JumpMux <= 1; ByteSel <= 2'b00;

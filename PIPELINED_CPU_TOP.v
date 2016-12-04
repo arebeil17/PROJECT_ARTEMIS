@@ -33,6 +33,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
     
     // IF Stage Output(s)
     wire [31:0] IF_Instruction_Out, IF_PC_Out;
+    wire IFID_JFlush_Out;
     
     // IFID Stage Register Output(s)
     wire [31:0] IFID_Instruction_Out, IFID_PC_Out;
@@ -119,7 +120,8 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .PC_In(IF_PC_Out),
         // Outputs
         .Instruction_Out(IFID_Instruction_Out), 
-        .PC_Out(IFID_PC_Out));
+        .PC_Out(IFID_PC_Out),
+        .IFID_JFlush_Out(IFID_JFlush_Out));
     
     //Instruction Decode Stage 2  
     ID_STAGE    ID(
@@ -141,6 +143,7 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
         .PC(IFID_PC_Out),
         .FWFromMEM(EXMEM_ALUResult_Out),
         .FWFromWB(WB_MemToReg_Out),
+        .IFID_JFlush(IFID_JFlush_Out),
         // Control Output(s)
         .Jump(ID_Jump_Out),
         .ALUOp(ID_ALUOp_Out),
@@ -344,8 +347,8 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
           
     // Clock Divider
     Mod_Clk_Div MCD(
-        //.In(4'b1111), // For MCD speeds
-        .In(4'b0000), // For Full Speed
+        .In(4'b1111), // For MCD speeds
+        //.In(4'b0000), // For Full Speed
         .Clk(Clk), 
         .Rst(Rst), 
         .ClkOut(ClkOut));
