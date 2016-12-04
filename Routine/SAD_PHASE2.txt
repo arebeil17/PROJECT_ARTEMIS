@@ -12,8 +12,8 @@ vbsme:
 			mul     $a2, $s0, $s1
 			sll     $a2, $a2, 2
 			add     $a2, $a1, $a2		# Initial Window element WRT DM
-			sll	$s5, $s3, 2			# Window Row Size
-			mul	$s4, $s5, $s2		# End of Window Offset
+			sll		$s5, $s3, 2			# Window Row Size
+			mul		$s4, $s5, $s2		# End of Window Offset
 			addi	$s4, $s4, -4
 			add     $s4, $s4, $a2       # End of Window Address
 			sll     $t7, $s1, 2	        # Frame width offset
@@ -56,14 +56,14 @@ returnUpdate:
 			srl     $t1, $t1, 2         	# convert address offset to integer index
 IndexLoop:									# Determines the index of the current row
 			slt     $t8, $t1, $s1			# if(t0 < 0) t2 = 1 else if(t0 >= 0) t2 = 0
-			bne	$t8, $0, CheckSAD 		# conitnue loop until t0 <= 0, t2 = 0
+			bne		$t8, $0, CheckSAD 		# conitnue loop until t0 <= 0, t2 = 0
 			sub     $t1, $t1, $s1       	# division by subraction
 			addi	$t0, $t0, 1
 			j 		IndexLoop
 CheckSAD:
 			slt 	$t8, $s7, $t5		# Check if current SAD is less than existing
 			bne 	$t8, $0, CheckExit 
-        		addi    $s7, $t5, 0         # update SAD with new comparison value
+			addi    $s7, $t5, 0         # update SAD with new comparison value
 			addi	$v0, $t0, 0
 			addi	$v1, $t1, 0
 CheckExit:	

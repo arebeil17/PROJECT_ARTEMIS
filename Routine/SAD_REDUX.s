@@ -63,7 +63,7 @@ MoveRight:	addi	$t8, $t8, 1				# 236 Move Next Column Index
 			addi	$s0, $s0, 4				# 240 Move Frame-Window Start
 			addi	$t0, $s0, 0				# 240
 			j 		SADLoop					# 244
-MoveNextR	:addi	$t9, $t9, 1				# 248 Move Row +1
+MoveNextR:  addi	$t9, $t9, 1				# 248 Move Row +1
 			addi	$t8, $0,  0				# 252 Move Col 0
 			sll		$t2, $s3, 2				# 256 Move Frame-Window To Begining of Next Row
 			add		$s0, $s0, $t2			# 260
