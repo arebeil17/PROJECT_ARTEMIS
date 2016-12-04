@@ -6,10 +6,6 @@ vbsme:  	li		$v0, 0					# 0 Set v0 = 0
 			lw		$s1,  4($a0)			# 20 Frame Cols
 			lw		$s2,  8($a0)			# 24 Window Rows
 			lw		$s3, 12($a0)			# 28 Window Cols
-			addi    $a1, $0, 16				# 	 Initial frame element address WRT DM
-			mul     $a2, $s0, $s1
-			sll     $a2, $a2, 2
-			add     $a2, $a1, $a2			#    Initial Window element WRT DM
 			sll		$s6, $s1, 2				# 32 Frame Row Jump
 			mul		$a3, $s2, $s3			# 36 End of Window
 			sll		$a3, $a3, 2				# 40
@@ -48,8 +44,8 @@ NextFWRow:	add		$t0, $t0, $a0			# Move Frame-Window
 			addi	$t1, $t1, 4				# Move to Next Window Element
 			add		$t6, $t6, $s6			# Move Frame-Window Row End
 			j		WindowLoop
-CheckSAD:	slt		$t2, $t5, $s7			# Chcek if Current Window SAD < Min SAD
-			beq		$t2, $0, CheckExit		#
+CheckSAD:	slt		$t2, $s7, $t5			# Chcek if Current Window SAD < Min SAD, Update
+			bne		$t2, $0, CheckExit		#
 			addi	$s7, $t5, 0				# Set New Min SAD
 			addi	$v0, $t9, 0				# Set New Min SAD Row
 			addi	$v1, $t8, 0				# Set New Min SAD Col

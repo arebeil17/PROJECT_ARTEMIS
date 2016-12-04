@@ -522,24 +522,24 @@ main:
 	
 	# Start test 0 
     ############################################################
-    #la      $a0, asize0     # 1st parameter: address of asize0[0]
-    #la      $a1, frame0     # 2nd parameter: address of frame0[0]
-    #la      $a2, window0    # 3rd parameter: address of window0[0] 
+    la      $a0, asize0     # 1st parameter: address of asize0[0]
+    la      $a1, frame0     # 2nd parameter: address of frame0[0]
+    la      $a2, window0    # 3rd parameter: address of window0[0] 
    
-    #jal     vbsme           # call function
-    #jal     print_result    # print results to console
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
     
     ############################################################
     # End of test 0 
 	
     # Start test 1 
     ############################################################
-    #la      $a0, asize1     # 1st parameter: address of asize1[0]
-    #la      $a1, frame1     # 2nd parameter: address of frame1[0]
-    #la      $a2, window1    # 3rd parameter: address of window1[0] 
+    la      $a0, asize1     # 1st parameter: address of asize1[0]
+    la      $a1, frame1     # 2nd parameter: address of frame1[0]
+    la      $a2, window1    # 3rd parameter: address of window1[0] 
    
-    #jal     vbsme           # call function
-    #jal     print_result    # print results to console
+    jal     vbsme           # call function
+    jal     print_result    # print results to console
     
     ############################################################
     # End of test 1   
@@ -860,15 +860,15 @@ NextFWRow:	add		$t0, $t0, $a0			# Move Frame-Window
 			addi	$t1, $t1, 4				# Move to Next Window Element
 			add		$t6, $t6, $s6			# Move Frame-Window Row End
 			j		WindowLoop
-CheckSAD:	slt		$t2, $t5, $s7			# Chcek if Current Window SAD < Min SAD
-			beq		$t2, $0, CheckExit		#
+CheckSAD:	slt		$t2, $s7, $t5			# Chcek if Current Window SAD < Min SAD, Update
+			bne		$t2, $0, CheckExit		#
 			addi	$s7, $t5, 0				# Set New Min SAD
 			addi	$v0, $t9, 0				# Set New Min SAD Row
 			addi	$v1, $t8, 0				# Set New Min SAD Col
 CheckExit:	bne		$t8, $s4, Move			# Check if at Last (Possible) Column
 			bne		$t9, $s5, Move			# Check if at Last (Possible) Row
-			#jr		$ra						
-			j		end
+			jr		$ra						
+			#j		end
 Move:		beq		$t8, $s4, MoveNextRow	# Check if at Last (Possible) Column
 MoveRight:	addi	$t8, $t8, 1				# Move Next Column Index
 			addi	$s0, $s0, 4				# Move Frame-Window Start
