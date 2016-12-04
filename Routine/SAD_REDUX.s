@@ -6,6 +6,10 @@ vbsme:  	li		$v0, 0					# 0 Set v0 = 0
 			lw		$s1,  4($a0)			# 20 Frame Cols
 			lw		$s2,  8($a0)			# 24 Window Rows
 			lw		$s3, 12($a0)			# 28 Window Cols
+			addi    $a1, $0, 16				# 	 Initial frame element address WRT DM
+			mul     $a2, $s0, $s1
+			sll     $a2, $a2, 2
+			add     $a2, $a1, $a2			#    Initial Window element WRT DM
 			sll		$s6, $s1, 2				# 32 Frame Row Jump
 			mul		$a3, $s2, $s3			# 36 End of Window
 			sll		$a3, $a3, 2				# 40
