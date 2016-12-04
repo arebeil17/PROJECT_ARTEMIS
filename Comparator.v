@@ -32,8 +32,8 @@ module Comparator(Clock, InA, InB, Result, Control);
                         BGTZ = 'b010, // Done
                         BLEZ = 'b011, // Done
                         BLTZ = 'b100,
-                        BNE  = 'b101; // Done
-                        
+                        BNE  = 'b101, // Done
+                        BLTE = 'b110; // Done
     
     always @(*)begin
         case (Control)
@@ -56,6 +56,8 @@ module Comparator(Clock, InA, InB, Result, Control);
             BNE: begin
                 Result <= (InA != InB) ? 1 : 0;
             end
-        endcase
+            BLTE: begin
+          		Resutl <= ($signed(InA) <= $signed(InB)) ? 1 : 0;
+          	endcase
     end
 endmodule
