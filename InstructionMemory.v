@@ -59,7 +59,8 @@ module InstructionMemory(Address, Instruction);
         //Phase 2 Testing
         //$readmemb("SAD_Final.bin", memory);
         //$readmemb("SAD_P2_IM.txt", memory);
-        $readmemb("newInstructionTest.txt", memory);
+        //$readmemb("newInstructionTest.txt", memory);
+        $readmemb("SAD_COMP1.txt", memory);
     end
 
     assign Instruction = memory[Address[31:2]];

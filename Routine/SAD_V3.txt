@@ -31,20 +31,20 @@ SAD_Routine:
 			add		$t3, $t6, $0        # Saves current initial Frame address before window scan
 			add     $t4, $a2, $0        # Reset current Window address
 #Compute SAD OF ENTIRE WINDOW	
-			lw	$t1, 0($t3)			    # L4B
-			lw	$t2, 0($t4)			    # L4B
+			lw	$t1, 0($t4)			    # L4B LOAD WINDOW ROW
+			lw	$t2, 0($t3)			    # L4B LOAD FRAME ROW
 			add $t7, $t1, $t2			# AD4B
 			add $t5, $t5, $t7			#
-			lw	$t1, 16($t3)			# L4B
-			lw	$t2, 256($t4)			# L4B
+			lw	$t1, 16($t4)			# L4B
+			lw	$t2, 256($t3)			# L4B
 			add $t7, $t1, $t2			# AD4B
 			add $t5, $t5, $t7			#
-			lw	$t1, 32($t3)			# L4B
-			lw	$t2, 512($t4)			# L4B	
+			lw	$t1, 32($t4)			# L4B
+			lw	$t2, 512($t3)			# L4B	
 			add $t7, $t1, $t2			# AD4B
 			add $t5, $t5, $t7			#
-			lw	$t1, 48($t3)			# L4B
-			lw	$t2, 768($t4)			# L4B
+			lw	$t1, 48($t4)			# L4B
+			lw	$t2, 768($t3)			# L4B
 			add $t7, $t1, $t2			# AD4B
 			add $t5, $t5, $t7			#
 returnUpdate:	
