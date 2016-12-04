@@ -25,19 +25,19 @@ SADLoop:	li		$t5, 0					# 116 Reset Window SAD
 #COMPUTE SAD OF ENTIRE WINDOW	
 			lw		$t3, 0($t1)			    # L4B LOAD WINDOW ROW
 			lw		$t2, 0($t0)			    # L4B LOAD FRAME ROW
-			lw		$t6, 16($t1)			# L4B
-			lw		$t4, 256($t0)			# L4B
 			add 	$t7, $t2, $t3			# AD4B
 			add 	$t5, $t5, $t7			#
-			add 	$t7, $t4, $t6			# AD4B
+			lw		$t3, 16($t1)			# L4B
+			lw		$t2, 256($t0)			# L4B
+			add 	$t7, $t2, $t3			# AD4B
 			add 	$t5, $t5, $t7			#
 			lw		$t3, 32($t1)			# L4B
 			lw		$t2, 512($t0)			# L4B	
-			lw		$t6, 48($t1)			# L4B
-			lw		$t4, 768($t0)			# L4B
 			add 	$t7, $t2, $t3			# AD4B
 			add 	$t5, $t5, $t7			#
-			add 	$t7, $t4, $t6			# AD4B
+			lw		$t3, 48($t1)			# L4B
+			lw		$t2, 768($t0)			# L4B
+			add 	$t7, $t2, $t3			# AD4B
 			add 	$t5, $t5, $t7			#
 CheckSAD:	slt		$t2, $s7, $t5			# 200 Chcek if Current Window SAD < Min SAD, Update
 			bne		$t2, $0, CheckExit		# 204
