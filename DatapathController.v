@@ -44,7 +44,8 @@ module DatapathController(
                     OP_101001 = 'b101001,	// SH - NOT IMPLEMENTED
                     OP_101011 = 'b101011,   // SW
                     //CUSTOM INSTRUCTIONS
-                    OP_110011 = 'b110011;   // L4B - LOAD 4 BYTES
+                    OP_110011 = 'b110011,   // L4B - LOAD 4 BYTES
+                    OP_111110 = 'b111110;   // BLTE
 
                     
     reg [5:0] State = INITIAL;
@@ -242,6 +243,13 @@ module DatapathController(
                 MemToReg <= 2'b01; SignExt <= 1; AluOp <= 'b00001; // Send ADDI to ALU Controller
                 Jump <= 0; JumpMux <= 0; ByteSel <= 2'b00;
                 BCControl <= 'b000; BranchSourceMux <= 0; JAL <= 0; LB4 <= 1;
+            end
+            OP_111110: begin // BLTE
+                RegDest <= 2'b01; RegWrite <= 0; AluSrc <= 0;
+                MemWrite <= 0; MemRead <= 0; Branch <= 1;
+                MemToReg <= 2'b11; SignExt <= 1; AluOp <= 'b10000;
+                Jump <= 0; JumpMux <= 0; ByteSel <= 2'b00;
+                BCControl <= 'b110; BranchSourceMux <= 0; JAL <= 0; LB4 <= 0;
             end
         endcase
      end
