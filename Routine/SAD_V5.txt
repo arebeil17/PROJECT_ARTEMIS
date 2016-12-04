@@ -40,6 +40,7 @@ SADLoop:	li		$t5, 0					# 116 Reset Window SAD
 			add 	$t5, $t5, $t7			#
 			lw		$t3, 16($t1)			# L4B
 			lw		$t2, 256($t0)			# L4B
+			add 	$t7, $t2, $t3			# AD4B
 			add 	$t5, $t5, $t7			#
 			lw		$t3, 32($t1)			# L4B
 			lw		$t2, 512($t0)			# L4B	
