@@ -347,8 +347,8 @@ module PIPELINED_CPU_TOP(Clk, Rst, out7, en_out, ClkOut);
           
     // Clock Divider
     Mod_Clk_Div MCD(
-        //.In(4'b1111), // For MCD speeds
-        .In(4'b0000), // For Full Speed
+        .In(4'b1111), // For MCD speeds
+        //.In(4'b0000), // For Full Speed
         .Clk(Clk), 
         .Rst(Rst), 
         .ClkOut(ClkOut));
