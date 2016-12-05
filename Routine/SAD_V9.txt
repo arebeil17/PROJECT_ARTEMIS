@@ -37,7 +37,7 @@ SADLoop:	li		$t5, 0					# 116 Reset Window SAD
 			add 	$t5, $t5, $t7			#
 			add 	$t7, $t4, $t6			# AD4B
 			add 	$t5, $t5, $t7			#
-CheckSAD:	beq		$t5, $s7, CheckExit		# BLTE
+CheckSAD:	beq		$t5, $s7, CheckExit		# BGT
 			addi	$s7, $t5, 0				# 208 Set New Min SAD
 			addi	$v0, $t9, 0				# 212 Set New Min SAD Row
 			addi	$v1, $t8, 0				# 216 Set New Min SAD Col

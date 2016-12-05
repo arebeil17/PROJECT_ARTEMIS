@@ -65,6 +65,7 @@ module DataMemory(Address, WriteData, ByteSel, LB4, Clock, MemWrite, MemRead, Re
         //$readmemh("SAD_DM16x16-4x4.hex", memory);
         //$readmemh("SAD_DM32x32-16x16.hex", memory);
         $readmemh("SAD_DM64x64-4x4.hex", memory);
+        //$readmemh("SAD_DM64x64-4x4w3s.hex", memory);
         // data_memory.txt is for Private Case Testing
         //$readmemh("data_memory.txt", memory);
 //        for(i = 0; i < 5120; i = i + 1) begin
